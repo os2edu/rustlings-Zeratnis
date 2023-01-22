@@ -35,10 +35,33 @@ impl Default for Person {
 // If while parsing the age, something goes wrong, then return the default of Person
 // Otherwise, then return an instantiated Person object with the results
 
-// I AM NOT DONE
+
 
 impl From<&str> for Person {
     fn from(s: &str) -> Person {
+        if s.len()==0{
+            Person::default()
+        }
+        else{
+            let v:Vec<&str> = s.split(",").collect();
+            if v.len()!=2{
+                Person::default()
+            }
+            else{
+                if (v[0].clone()=="")||(v[1].clone()==""){
+                    Person::default()
+                }
+                else{
+                    let num = v[1].clone().parse::<usize>();
+                    if !num.is_err(){
+                        Person{name:v[0].clone().to_string(),age:num.unwrap()}
+                    }
+                    else{
+                        Person::default()
+                    }
+                }
+            }
+        }
     }
 }
 
