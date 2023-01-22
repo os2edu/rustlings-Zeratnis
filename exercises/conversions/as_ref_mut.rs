@@ -17,7 +17,12 @@ fn char_counter<T:AsRef<str>>(arg: T) -> usize {
     arg.as_ref().chars().count()
 }
 
-
+// Squares a number using as_mut(). Add the trait bound as is appropriate and
+// implement the function body.
+fn num_sq< T:AsMut<u32> +AsRef<u32>>(arg: &mut T) {
+    let val = *arg.as_ref()**arg.as_ref();
+    *arg.as_mut()=val;
+}
 
 #[cfg(test)]
 mod tests {
@@ -47,5 +52,10 @@ mod tests {
         assert_eq!(char_counter(s.clone()), byte_counter(s));
     }
 
-    
+    #[test]
+    fn mult_box() {
+        let mut num: Box<u32> = Box::new(3);
+        num_sq(&mut num);
+        assert_eq!(*num, 9);
+    }
 }
